@@ -9,11 +9,11 @@ public class MyDynamicArray {
      */
     private int capacity;
     /**
-     * length of arrat
+     * current length of array
      */
     private int currentLength;
 
-    public <T> MyDynamicArray() {
+    public MyDynamicArray() {
         capacity = 1;
         currentLength = 0;
         array = new Object[capacity];
@@ -69,7 +69,7 @@ public class MyDynamicArray {
 
     // delete element at the given index
     public void delete(int index) {
-        if (index > -1 && index < currentLength) {
+        if (index >= 0 && index <= currentLength - 1) {
             if (index == currentLength - 1) {
                 pop();
             } else {
