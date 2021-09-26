@@ -20,6 +20,8 @@ fun main(args: Array<String>) {
     println(myHashTable.keys())
 }
 
+// TODO: would need a load factor and to optimize how to find when collisions
+
 class HomeMadeHashTable<K, V>(size: Int) {
     var data: Array<LinkedList<HomeMadeKeyValue<K, V>>?>
     var currentLength: Int
