@@ -31,7 +31,7 @@ class BinarySearchTree {
 
     fun lookup(value: Int): Boolean {
         var currentNode = root
-        while(true) {
+        while (true) {
             if (currentNode == null) return false
             if (currentNode.value == value) return true
             currentNode = if (value > currentNode.value)
@@ -41,15 +41,56 @@ class BinarySearchTree {
         }
     }
 
-    fun remove(value: Int): Boolean {
-        TODO()
-    }
+    fun remove(value: Int) {
+        if (root == null) return
 
-    fun traverse(node: Node): Node {
-        val left = if (node.left == null) null else traverse(node.left!!)
-        val right = if (node.right == null) null else traverse(node.right!!)
-        val tree = Node(node.value, left, right)
-        return tree;
+        var currentNode = root
+        var parentNode: Node? = null
+        while (currentNode != null) {
+            if (value > currentNode.value) {
+                parentNode = currentNode
+                currentNode = currentNode.right
+            } else if (value < currentNode.value) {
+                parentNode = currentNode
+                currentNode = currentNode.left
+            } else {
+                if (currentNode.right == null) {
+                    if (parentNode == null) {
+                        root = currentNode.left
+                    } else if (currentNode.value > parentNode.value) {
+                        parentNode.right = currentNode.left
+                    } else if (currentNode.value > parentNode.value) {
+                        parentNode.right = currentNode.right
+                    }
+                } else if (currentNode.right!!.left == null) {
+                    if (parentNode == null) {
+                        this.root = currentNode.right
+                    } else {
+                        if (currentNode.value < parentNode.value) {
+                            parentNode.left = currentNode.right
+                        } else if (currentNode.value > parentNode.value) {
+                            parentNode.right = currentNode.right
+                        }
+                    }
+                } else {
+                    if (parentNode == null) {
+                        val leftNode = this.root!!.left
+                        val rightNode = this.root!!.right
+                        this.root = currentNode.right!!.left
+                        rightNode!!.left = rightNode.left!!.right
+                        this.root!!.left = leftNode
+                        this.root!!.right = rightNode
+                    } else {
+                        if (currentNode.value < parentNode.value) {
+                            parentNode.left = currentNode.right!!.left
+                        } else if (currentNode.value > parentNode.value) {
+                            parentNode.right = currentNode.right!!.left
+                        }
+                    }
+                }
+                currentNode = null
+            }
+        }
     }
 
     override fun toString(): String {
@@ -70,7 +111,7 @@ fun main(args: Array<String>) {
 
     println("tree.lookup(20).toString()")
     println(tree.lookup(20).toString())
-//    tree.remove(20)
-//    println("tree after removal of 20")
-//    println(tree.toString())
+    tree.remove(20)
+    println("tree after removal of 20")
+    println(tree.toString())
 }
