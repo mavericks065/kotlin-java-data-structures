@@ -93,6 +93,25 @@ class BinarySearchTree {
         }
     }
 
+    // height is the number of nodes from a node to the lowest level in my case
+    fun getHeight(node: Node?): Int {
+        if (node == null)
+           return 0
+        else {
+            return getMaxHeight(node) + 1
+        }
+    }
+
+    private fun getMaxHeight(node: Node?): Int {
+        if (node == null)
+            return 0
+        val leftHeight = getMaxHeight(node.left)
+        val rightHeight = getMaxHeight(node.right)
+
+        return if (leftHeight > rightHeight) leftHeight + 1 else
+            rightHeight + 1
+    }
+
     override fun toString(): String {
         return "BinarySearchTree(root=$root)"
     }
@@ -111,7 +130,9 @@ fun main(args: Array<String>) {
 
     println("tree.lookup(20).toString()")
     println(tree.lookup(20).toString())
-    tree.remove(20)
-    println("tree after removal of 20")
-    println(tree.toString())
+//    tree.remove(20)
+//    println("tree after removal of 20")
+//    println(tree.toString())
+    println(tree.getHeight(tree.root))
+    println(tree.getHeight(tree.root!!.left))
 }
