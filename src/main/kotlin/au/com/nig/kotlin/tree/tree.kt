@@ -6,44 +6,38 @@ class BinarySearchTree {
     var root: Node? = null
 
     fun insert(value: Int) {
-        return if (root == null) {
-            root = Node(value)
-        } else {
-            var current = root!!
+        val newNode = Node(value)
+        if (root == null)
+            root = newNode
+        else {
+            var currentNode = root
             while (true) {
-                if (current.value >= value) {
-                    if (current.left == null) {
-                        current.left = Node(value)
+                if (value >= currentNode!!.value) {
+                    if (currentNode.right == null) {
+                        currentNode.right = newNode
                         break
                     }
-                    current = current.left!!
+                    currentNode = currentNode.right
                 } else {
-                    if (current.right == null) {
-                        current.right = Node(value)
+                    if (currentNode.left == null) {
+                        currentNode.left = newNode
                         break
                     }
-                    current = current.right!!
+                    currentNode = currentNode.left
                 }
             }
         }
     }
 
     fun lookup(value: Int): Boolean {
-        if (root == null)
-            return false
-
         var currentNode = root
         while(true) {
-            if (currentNode == null) {
-                return false
-            }
-            if (currentNode.value == value)
-                return true
-            else if (currentNode.value > value) {
-                currentNode = currentNode.left
-            } else if (currentNode.value < value) {
-                currentNode = currentNode.right
-            }
+            if (currentNode == null) return false
+            if (currentNode.value == value) return true
+            currentNode = if (value > currentNode.value)
+                currentNode.right
+            else
+                currentNode.left
         }
     }
 
@@ -76,7 +70,7 @@ fun main(args: Array<String>) {
 
     println("tree.lookup(20).toString()")
     println(tree.lookup(20).toString())
-    tree.remove(20)
-    println("tree after removal of 20")
-    println(tree.toString())
+//    tree.remove(20)
+//    println("tree after removal of 20")
+//    println(tree.toString())
 }
