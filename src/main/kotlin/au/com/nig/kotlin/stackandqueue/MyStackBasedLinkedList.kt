@@ -42,7 +42,6 @@ class MyStackBasedLinkedList {
 
 }
 
-
 fun main(args: Array<String>) {
     val stack = MyStackBasedLinkedList()
 
