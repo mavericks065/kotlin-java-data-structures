@@ -48,6 +48,39 @@ object Sorting {
         return numbers
     }
 
+    fun mergeSort(numbers: MutableList<Int>): MutableList<Int> {
+        if (numbers.isEmpty() || numbers.size == 1)
+            return numbers
+
+        val left = numbers.subList(0, numbers.size / 2)
+        val right = numbers.subList(numbers.size / 2, numbers.size)
+
+        return merge(mergeSort(left), mergeSort(right))
+    }
+
+    private fun merge(left: MutableList<Int>, right: MutableList<Int>): MutableList<Int> {
+        val newList = mutableListOf<Int>()
+        var leftIdx = 0
+        var rightIdx = 0
+
+        while(leftIdx < left.size && rightIdx < right.size) {
+            if (left[leftIdx] < right[rightIdx]) {
+                newList.add(left[leftIdx])
+                leftIdx++
+            } else {
+                newList.add(right[rightIdx])
+                rightIdx++
+            }
+        }
+        val remainingLeft = left.subList(leftIdx, left.size)
+        val remainingRight = right.subList(rightIdx, right.size)
+        newList.addAll(remainingLeft)
+        newList.addAll(remainingRight)
+
+        return newList
+    }
+
+
     fun bubbleSort0(numbers: MutableList<Int>): MutableList<Int> {
 
         for (index in 1..numbers.size) {
