@@ -31,14 +31,14 @@ class BinarySearchTree {
 
     fun lookup(value: Int): Boolean {
         var currentNode = root
-        while (true) {
-            if (currentNode == null) return false
+        while (currentNode != null) {
             if (currentNode.value == value) return true
-            currentNode = if (value > currentNode.value)
-                currentNode.right
+            if (value > currentNode.value)
+                currentNode = currentNode.right
             else
-                currentNode.left
+                currentNode = currentNode.left
         }
+        return false
     }
 
     fun remove(value: Int) {
@@ -96,20 +96,15 @@ class BinarySearchTree {
     // height is the number of nodes from a node to the lowest level in my case
     fun getHeight(node: Node?): Int {
         if (node == null)
-           return 0
-        else {
-            return getMaxHeight(node) + 1
-        }
-    }
-
-    private fun getMaxHeight(node: Node?): Int {
-        if (node == null)
             return 0
-        val leftHeight = getMaxHeight(node.left)
-        val rightHeight = getMaxHeight(node.right)
-
-        return if (leftHeight > rightHeight) leftHeight + 1 else
-            rightHeight + 1
+        else {
+            var rightHeight = getHeight(node.right)
+            var leftHeight = getHeight(node.left)
+            if (rightHeight >= leftHeight)
+                return rightHeight + 1
+            else
+                return leftHeight + 1
+        }
     }
 
     override fun toString(): String {
@@ -130,6 +125,8 @@ fun main(args: Array<String>) {
 
     println("tree.lookup(20).toString()")
     println(tree.lookup(20).toString())
+    println("tree.lookup(21).toString()")
+    println(tree.lookup(21).toString())
 //    tree.remove(20)
 //    println("tree after removal of 20")
 //    println(tree.toString())
