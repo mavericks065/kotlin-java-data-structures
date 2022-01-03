@@ -1,5 +1,7 @@
 package au.com.nig.kotlin.tree
 
+import java.util.*
+
 data class Node(val value: Int, var left: Node? = null, var right: Node? = null)
 
 class BinarySearchTree {
@@ -107,6 +109,43 @@ class BinarySearchTree {
         }
     }
 
+    fun breadthFirstSearch(): List<Int> {
+        var currentNode = root
+        val result = mutableListOf<Int>()
+        val queueOfNodesToProcess = LinkedList<Node>()
+        queueOfNodesToProcess.offer(currentNode)
+
+        while (queueOfNodesToProcess.isNotEmpty()) {
+            currentNode = queueOfNodesToProcess.pop()
+            if (currentNode.left != null) {
+                queueOfNodesToProcess.offer(currentNode.left)
+            }
+            if (currentNode.right != null) {
+                queueOfNodesToProcess.offer(currentNode.right)
+            }
+            result.add(currentNode.value)
+        }
+        return result
+    }
+
+    fun breadthFirstSearchRecursive(): List<Int> {
+        val queueOfNodesToProcess = LinkedList<Node>()
+        queueOfNodesToProcess.offer(root!!)
+        return bfsRecursive(queueOfNodesToProcess, mutableListOf())
+    }
+
+    fun bfsRecursive(queueOfNodeToProcess: LinkedList<Node>, finalResult: MutableList<Int>): List<Int> {
+        if (queueOfNodeToProcess.isEmpty())
+            return finalResult
+        var currentNode = queueOfNodeToProcess.pop()
+        if (currentNode.left != null)
+            queueOfNodeToProcess.offer(currentNode.left)
+        if (currentNode.right != null)
+            queueOfNodeToProcess.offer(currentNode.right)
+        finalResult.add(currentNode.value)
+        return bfsRecursive(queueOfNodeToProcess, finalResult)
+    }
+
     override fun toString(): String {
         return "BinarySearchTree(root=$root)"
     }
@@ -123,13 +162,26 @@ fun main(args: Array<String>) {
     tree.insert(1)
     println(tree.toString())
 
-    println("tree.lookup(20).toString()")
+    println("======= Lookup of existing and unexisting nodes =====")
     println(tree.lookup(20).toString())
-    println("tree.lookup(21).toString()")
     println(tree.lookup(21).toString())
+    println()
+
+//    println("===== removal of 20 ==== ")
 //    tree.remove(20)
 //    println("tree after removal of 20")
 //    println(tree.toString())
+//    println()
+
+    println("===== height ==== ")
     println(tree.getHeight(tree.root))
     println(tree.getHeight(tree.root!!.left))
+
+    println()
+
+    println("===== iterative BFS =====")
+    println(tree.breadthFirstSearch().toString())
+
+    println("===== iterative BFS recursive =====")
+    println(tree.breadthFirstSearchRecursive().toString())
 }
