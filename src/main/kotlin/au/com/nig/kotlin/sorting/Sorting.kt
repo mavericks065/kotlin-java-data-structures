@@ -80,6 +80,35 @@ object Sorting {
         return newList
     }
 
+    fun quickSort(numbers: MutableList<Int>): MutableList<Int> {
+        quickSortImplem(numbers, 0, numbers.size-1)
+        return numbers
+    }
+
+    fun quickSortImplem(numbers: MutableList<Int>, first: Int, last: Int) {
+        if (first < last) {
+            val partitionIdx = reOrderAroundPivot(numbers, first, last)
+            quickSortImplem(numbers, first, partitionIdx - 1)
+            quickSortImplem(numbers, partitionIdx + 1, last)
+        }
+    }
+
+    private fun reOrderAroundPivot(numbers: MutableList<Int>, first: Int, last: Int): Int {
+        val pivotValue = numbers[last]
+        var i = first - 1
+        for (j in first until last) {
+            if (numbers[j] < pivotValue) {
+                i++
+                val holdingValue = numbers[i]
+                numbers[i] = numbers[j]
+                numbers[j] = holdingValue
+            }
+        }
+        val temp = numbers[i + 1]
+        numbers[i + 1] = numbers[last]
+        numbers[last] = temp
+        return i + 1
+    }
 
     fun bubbleSort0(numbers: MutableList<Int>): MutableList<Int> {
 
