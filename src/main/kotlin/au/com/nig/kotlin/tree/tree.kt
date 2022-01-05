@@ -137,7 +137,7 @@ class BinarySearchTree {
     fun bfsRecursive(queueOfNodeToProcess: LinkedList<Node>, finalResult: MutableList<Int>): List<Int> {
         if (queueOfNodeToProcess.isEmpty())
             return finalResult
-        var currentNode = queueOfNodeToProcess.pop()
+        val currentNode = queueOfNodeToProcess.pop()
         if (currentNode.left != null)
             queueOfNodeToProcess.offer(currentNode.left)
         if (currentNode.right != null)
@@ -146,11 +146,61 @@ class BinarySearchTree {
         return bfsRecursive(queueOfNodeToProcess, finalResult)
     }
 
+    fun dfsInOrder(): List<Int> {
+        return if (root == null)
+            mutableListOf()
+        else traverseInOrder(root!!, mutableListOf<Int>())
+    }
+
+    private fun traverseInOrder(node: Node, foundNodes: MutableList<Int>): List<Int> {
+        if (node.left != null) traverseInOrder(node.left!!, foundNodes)
+        foundNodes.add(node.value)
+        if (node.right != null) traverseInOrder(node.right!!, foundNodes)
+        return foundNodes
+    }
+
+    fun dfsPreOrder(): List<Int> {
+        return if (root == null)
+            mutableListOf()
+        else traversePreOrder(root!!, mutableListOf<Int>())
+    }
+
+    private fun traversePreOrder(node: Node, foundNodes: MutableList<Int>): List<Int> {
+        foundNodes.add(node.value)
+        if (node.left != null) traversePreOrder(node.left!!, foundNodes)
+        if (node.right != null) traversePreOrder(node.right!!, foundNodes)
+        return foundNodes
+    }
+
+    fun dfsPostOrder(): List<Int> {
+        return if (root == null)
+            mutableListOf()
+        else traversePostOrder(root!!, mutableListOf<Int>())
+    }
+
+    private fun traversePostOrder(node: Node, foundNodes: MutableList<Int>): List<Int> {
+        if (node.left != null) traversePostOrder(node.left!!, foundNodes)
+        if (node.right != null) traversePostOrder(node.right!!, foundNodes)
+        foundNodes.add(node.value)
+        return foundNodes
+    }
+
     override fun toString(): String {
         return "BinarySearchTree(root=$root)"
     }
 }
+//     9
+//  4     20
+//1  6  15  170
+/**
+===== DFS - InOrder =====
+[1, 4, 6, 9, 15, 20, 170]
 
+===== DFS - PreOrder =====
+[9, 4, 1, 6, 20, 15, 170]
+
+
+ */
 fun main(args: Array<String>) {
     val tree = BinarySearchTree()
     tree.insert(9)
@@ -160,6 +210,7 @@ fun main(args: Array<String>) {
     tree.insert(170)
     tree.insert(15)
     tree.insert(1)
+
     println(tree.toString())
 
     println("======= Lookup of existing and unexisting nodes =====")
@@ -184,4 +235,19 @@ fun main(args: Array<String>) {
 
     println("===== iterative BFS recursive =====")
     println(tree.breadthFirstSearchRecursive().toString())
+
+    println()
+
+    println("===== DFS - InOrder =====")
+    println(tree.dfsInOrder().toString())
+
+    println()
+
+    println("===== DFS - PreOrder =====")
+    println(tree.dfsPreOrder().toString())
+
+    println()
+
+    println("===== DFS - PostOrder =====")
+    println(tree.dfsPostOrder().toString())
 }
