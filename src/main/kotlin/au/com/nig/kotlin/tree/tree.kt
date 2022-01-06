@@ -193,13 +193,14 @@ class BinarySearchTree {
 //  4     20
 //1  6  15  170
 /**
-===== DFS - InOrder =====
+===== DFS - InOrder ===== From smallest to highest
 [1, 4, 6, 9, 15, 20, 170]
 
 ===== DFS - PreOrder =====
 [9, 4, 1, 6, 20, 15, 170]
 
-
+===== DFS - PostOrder =====
+[1, 6, 4, 15, 170, 20, 9]
  */
 fun main(args: Array<String>) {
     val tree = BinarySearchTree()
